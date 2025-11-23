@@ -16,33 +16,20 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Enable CORS
-const corsOptions = {
+// Enable CORS - Allow all Vercel domains
+app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
+    // Allow requests with no origin
     if (!origin) return callback(null, true);
-    
-    // Allow all Vercel preview URLs and production URL
-    if (origin.includes('vercel.app')) {
-      return callback(null, true);
-    }
-    
-    // Allow specific CORS_ORIGIN if set
-    if (process.env.CORS_ORIGIN && process.env.CORS_ORIGIN.split(',').includes(origin)) {
-      return callback(null, true);
-    }
-    
-    // In development, allow all
-    if (process.env.NODE_ENV !== 'production') {
-      return callback(null, true);
-    }
-    
+    // Allow all vercel.app domains
+    if (origin.includes('vercel.app')) return callback(null, true);
+    // Allow localhost for development
+    if (origin.includes('localhost')) return callback(null, true);
+    // Deny others
     callback(new Error('Not allowed by CORS'));
   },
-  credentials: true,
-  optionsSuccessStatus: 200
-};
-app.use(cors(corsOptions));
+  credentials: true
+}));
 
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));
