@@ -31,6 +31,7 @@ app.use('/api/bookings', require('./routes/bookingRoutes'));
 app.use('/api/worker', require('./routes/workerRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 app.use('/api/chatbot', require('./routes/chatbotRoutes'));
+app.use('/api/seed', require('./routes/seedRoutes'));
 
 // Health check
 app.get('/health', (req, res) => {
