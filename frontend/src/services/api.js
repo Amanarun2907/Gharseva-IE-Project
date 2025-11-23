@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = '/api';
+// Use environment variable for production, fallback to /api for development
+const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 // Configure axios
 axios.defaults.baseURL = API_URL;
